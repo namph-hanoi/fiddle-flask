@@ -5,6 +5,8 @@ from flask_smorest import Api
 from flask_jwt_extended import JWTManager
 from flask_migrate import Migrate
 from dotenv import load_dotenv
+from flask_cors import CORS
+
 
 
 from db import db
@@ -20,7 +22,8 @@ from resources.user import blp as UserBlueprint
 def create_app(db_url=None):
     app = Flask(__name__)
     load_dotenv()
-
+    #  Todo: config CORS when deploy
+    CORS(app)
     app.config["PROPAGATE_EXCEPTIONS"] = True
     app.config["API_TITLE"] = "Stores REST API"
     app.config["API_VERSION"] = "v1"
@@ -104,6 +107,7 @@ def create_app(db_url=None):
     api.register_blueprint(ItemBlueprint)
     api.register_blueprint(StoreBlueprint)
     api.register_blueprint(TagBlueprint)
-    api.register_blueprint(UserBlueprint)
+    # Todo: export the function from resource folder
+    api.register_blueprint(UserBlueprint, url_prefix='/user')
 
     return app

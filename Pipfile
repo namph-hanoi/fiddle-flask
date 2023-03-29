@@ -17,6 +17,7 @@ psycopg2-binary = "*"
 requests = "*"
 redis = "*"
 rq = "*"
+flask-cors = "*"
 
 [dev-packages]
 
