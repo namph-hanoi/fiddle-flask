@@ -1,16 +1,26 @@
 # syntax=docker/dockerfile:1.4
 FROM --platform=$BUILDPLATFORM python:3.10-alpine AS builder
 
-WORKDIR /code
+RUN apk update \
+&& apk add curl
 
-COPY requirements.txt /code
-RUN --mount=type=cache,target=/root/.cache/pip \
-    pip3 install -r requirements.txt
+RUN apk add libpq-dev postgresql-dev postgresql-client build-base \
+&& cd /usr/local/bin \
+&& pip3 install --upgrade pip
 
-COPY . /code
+# Install python packages
+COPY poetry.lock pyproject.toml /app/
+WORKDIR /app
+RUN curl -sSL https://install.python-poetry.org | python3 - \
+&& export PATH="/root/.local/bin:$PATH" \
+&& poetry config virtualenvs.create false \
+&& poetry install --no-root
 
-ENTRYPOINT ["python3"]
-CMD ["app.py"]
+ENV PATH="${PATH}:/root/.local/bin"
+
+COPY . /app
+RUN chmod +x scripts/entrypoint.local.sh
+ENTRYPOINT ["scripts/entrypoint.local.sh"]
 
 FROM builder as dev-envs
 

@@ -1,0 +1,5 @@
+.docker
+.vscode
+__pycache__
+db-data
+.env
