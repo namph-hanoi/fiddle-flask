@@ -9,8 +9,8 @@ load_dotenv(dotenv_path)
 
 class Config:
     NAME = os.getenv('NAME', 'Management Console')
+    # Todo: check if production to turn off
     DEBUG = bool(os.getenv('FLASK_DEBUG', False))
-    # ENV = os.getenv('FLASK_DEBUG', 'production')
     APP_HOST = os.getenv('APP_HOST', '127.0.0.1')
     APP_PORT = os.getenv('APP_PORT', '5000')
     APP_SECRET = os.getenv('APP_SECRET', '')
