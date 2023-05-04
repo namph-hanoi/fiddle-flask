@@ -1,4 +1,5 @@
 import os
+import sys
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -33,7 +34,8 @@ class Config:
             'port': os.getenv('DB_PORT', '5432'),
             'name': os.getenv('DB_NAME', 'deploy_console'),
         })
-    if os.getenv('FLASK_DEBUG') == 'test':
+    
+    if "pytest" in sys.modules:
         SQLALCHEMY_DATABASE_URI = 'sqlite:///:memory:'
     else:
         SQLALCHEMY_POOL_SIZE = int(os.getenv('SQLALCHEMY_POOL_SIZE', 10))
