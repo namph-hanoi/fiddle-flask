@@ -17,8 +17,10 @@ class Config:
 
     GRACEFUL_SHUTDOWN_SEC = int(os.getenv('GRACEFUL_SHUTDOWN_SEC', 120))
     TOKEN_VALID_SEC = int(os.getenv('TOKEN_VALID_SEC', 86400))
-    TOKEN_ENCODE_SECRET = os.getenv('TOKEN_ENCODE_SECRET', 'abcxyz')
     TOKEN_HEADER_NAME = os.getenv("TOKEN_HEADER_NAME", "x-auth-token")
+
+    JWT_SECRET_KEY = os.getenv('JWT_SECRET_KEY', 'abcxyz')
+    # Todo: learn and try JWT_ACCESS_TOKEN_EXPIRES, JWT_HEADER_NAME, JWT_HEADER_TYPE, COOKIE...
 
     SWAGGER_URL = '/api/v1/swagger'
     SWAGGER_PATH = 'documents/api/swagger.yaml'
@@ -37,8 +39,16 @@ class Config:
         SQLALCHEMY_POOL_SIZE = int(os.getenv('SQLALCHEMY_POOL_SIZE', 10))
         SQLALCHEMY_MAX_OVERFLOW = int(os.getenv('SQLALCHEMY_MAX_OVERFLOW', 10))
         SQLALCHEMY_POOL_TIMEOUT = int(os.getenv('SQLALCHEMY_POOL_TIMEOUT', 30))
-
     SQLALCHEMY_ECHO = bool(os.getenv('SQLALCHEMY_ECHO', False))
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+    PROPAGATE_EXCEPTIONS = True
+    API_TITLE = "Stores REST API"
+    API_VERSION = "v1"
+    OPENAPI_VERSION = "3.0.3"
+    OPENAPI_URL_PREFIX = "/"
+    OPENAPI_SWAGGER_UI_PATH = "/swagger-ui"
+    OPENAPI_SWAGGER_UI_URL = "https://cdn.jsdelivr.net/npm/swagger-ui-dist/"
 
     # Todo
     # AWS_KEY = os.getenv('AWS_KEY', '')
