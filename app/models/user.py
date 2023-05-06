@@ -20,6 +20,9 @@ class UserModel(db.Model):
                            nullable=True,
                            onupdate=current_timestamp)
     
+    posts = db.relationship('PostModel', back_populates="user",
+                            lazy='joined')
+    
     def _get_password(self):
         return self._password
 
