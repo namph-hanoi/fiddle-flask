@@ -31,8 +31,7 @@ class UserRegister(MethodView):
         user = UserModel(
             username=user_data["username"],
             email=user_data["email"],
-            # Todo: create a class function for hash inside User model
-            password=pbkdf2_sha256.hash(user_data["password"]),
+            password=user_data["password"],
         )
         db.session.add(user)
         # Todo: create decorator to auto commit or rollback
@@ -49,7 +48,7 @@ class UserLogin(MethodView):
             UserModel.username == user_data["username"]
         ).first()
 
-        if user and pbkdf2_sha256.verify(user_data["password"], user.password):
+        if user and user.check_password(user_data["password"]):
             access_token = create_access_token(identity=user.id, fresh=True)
             refresh_token = create_refresh_token(identity=user.id)
             return {"access_token": access_token, "refresh_token": refresh_token}
