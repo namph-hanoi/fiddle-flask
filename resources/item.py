@@ -6,7 +6,6 @@ from sqlalchemy.exc import SQLAlchemyError
 from db import db
 from models import ItemModel
 from schemas import ItemSchema, ItemUpdateSchema
-
 blp = Blueprint("Items", __name__, description="Operations on items")
 
 
@@ -45,7 +44,7 @@ class Item(MethodView):
         return item
 
 
-@blp.route("/item")
+@blp.route("/")
 class ItemList(MethodView):
     @jwt_required()
     @blp.response(200, ItemSchema(many=True))
@@ -57,6 +56,11 @@ class ItemList(MethodView):
     @blp.response(201, ItemSchema)
     def post(self, item_data):
         item = ItemModel(**item_data)
+
+        import debugpy
+        debugpy.listen(5678)
+        debugpy.wait_for_client()
+        debugpy.breakpoint()
 
         try:
             db.session.add(item)

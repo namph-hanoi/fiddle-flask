@@ -104,8 +104,8 @@ def create_app(db_url=None):
     def create_tables():
         db.create_all()
 
-    api.register_blueprint(ItemBlueprint)
-    api.register_blueprint(StoreBlueprint)
+    api.register_blueprint(ItemBlueprint, url_prefix='/item')
+    api.register_blueprint(StoreBlueprint, url_prefix='/store')
     api.register_blueprint(TagBlueprint)
     # Todo: export the function from resource folder
     api.register_blueprint(UserBlueprint, url_prefix='/user')

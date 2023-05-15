@@ -31,6 +31,7 @@ queue = Queue("emails", connection=connection)
 class UserRegister(MethodView):
     @blp.arguments(UserRegisterSchema)
     def post(self, user_data):
+        print(["🚀 ~ file: user.py:34 ~ user_data:", user_data], flush=True)
         if UserModel.query.filter(
             or_(
                 UserModel.username == user_data["username"],
@@ -73,6 +74,10 @@ class TokenRefresh(MethodView):
     @jwt_required(refresh=True)
     def post(self):
         current_user = get_jwt_identity()
+        import debugpy
+        debugpy.listen(5678)
+        debugpy.wait_for_client()
+        debugpy.breakpoint()
         new_token = create_access_token(identity=current_user, fresh=False)
         return {"access_token": new_token}
 
